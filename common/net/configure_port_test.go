@@ -90,12 +90,15 @@ func TestListenRangeConfig_Listen(t *testing.T) {
 	{ // test that closed port can be reopenned.
 		ctx, cancel := context.WithTimeout(topCtx, 250*time.Millisecond)
 
+		t.Log("****** calling ListenRangeConfig *****")
 		lockedListener, err = ListenRangeConfig{
 			Min: lockedListener.Port,
 		}.Listen(ctx)
 		if err != nil {
+			t.Log("****** e != nil *****")
 			t.Fatalf("port should have been freed: %v", err)
 		}
+		t.Log("****** before cancel ListenRangeConfig *****")
 		cancel()
 		defer lockedListener.Close() // in case
 	}
