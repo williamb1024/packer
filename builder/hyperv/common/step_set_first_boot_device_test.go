@@ -62,7 +62,7 @@ func TestStepSetFirstBootDevice_impl(t *testing.T) {
 
 func TestStepSetFirstBootDevice_ParseIdentifier(t *testing.T) {
 
-	for _, identifierTest := range identifierTests {
+	for _, identifierTest := range parseIdentifierTests {
 
 		controllerType, controllerNumber, controllerLocation, err := ParseBootDeviceIdentifier(
 			identifierTest.deviceIdentifier,
