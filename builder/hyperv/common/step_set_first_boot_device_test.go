@@ -13,48 +13,49 @@ type parseBootDeviceIdentifierTest struct {
 	controllerType     string
 	controllerNumber   uint
 	controllerLocation uint
-	shouldError        bool
+	failInParse        bool      // true if ParseBootDeviceIdentifier should return an error
+	haltStep           bool      // true if Step.Run should return Halt action
 }
 
 var parseIdentifierTests = [...]parseBootDeviceIdentifierTest{
-	{1, "IDE", "IDE", 0, 0, false},
-	{1, "idE", "IDE", 0, 0, false},
-	{1, "CD", "CD", 0, 0, false},
-	{1, "cD", "CD", 0, 0, false},
-	{1, "DVD", "CD", 0, 0, false},
-	{1, "Dvd", "CD", 0, 0, false},
-	{1, "FLOPPY", "FLOPPY", 0, 0, false},
-	{1, "FloppY", "FLOPPY", 0, 0, false},
-	{1, "NET", "NET", 0, 0, false},
-	{1, "net", "NET", 0, 0, false},
-	{1, "", "", 0, 0, true},
-	{1, "bad", "", 0, 0, true},
-	{1, "IDE:0:0", "", 0, 0, true},
-	{1, "SCSI:0:0", "", 0, 0, true},
-	{2, "IDE", "", 0, 0, true},
-	{2, "idE", "", 0, 0, true},
-	{2, "CD", "CD", 0, 0, false},
-	{2, "cD", "CD", 0, 0, false},
-	{2, "DVD", "CD", 0, 0, false},
-	{2, "Dvd", "CD", 0, 0, false},
-	{2, "FLOPPY", "", 0, 0, true},
-	{2, "FloppY", "", 0, 0, true},
-	{2, "NET", "NET", 0, 0, false},
-	{2, "net", "NET", 0, 0, false},
-	{2, "", "", 0, 0, true},
-	{2, "bad", "", 0, 0, true},
-	{2, "IDE:0:0", "IDE", 0, 0, false},
-	{2, "SCSI:0:0", "SCSI", 0, 0, false},
-	{2, "Ide:0:0", "IDE", 0, 0, false},
-	{2, "sCsI:0:0", "SCSI", 0, 0, false},
-	{2, "IDEscsi:0:0", "", 0, 0, true},
-	{2, "SCSIide:0:0", "", 0, 0, true},
-	{2, "IDE:0", "", 0, 0, true},
-	{2, "SCSI:0", "", 0, 0, true},
-	{2, "IDE:0:a", "", 0, 0, true},
-	{2, "SCSI:0:a", "", 0, 0, true},
-	{2, "IDE:0:653", "", 0, 0, true},
-	{2, "SCSI:-10:0", "", 0, 0, true},
+	{1, "IDE", "IDE", 0, 0, false, false},
+	{1, "idE", "IDE", 0, 0, false, false},
+	{1, "CD", "CD", 0, 0, false, false},
+	{1, "cD", "CD", 0, 0, false, false},
+	{1, "DVD", "CD", 0, 0, false, false},
+	{1, "Dvd", "CD", 0, 0, false, false},
+	{1, "FLOPPY", "FLOPPY", 0, 0, false, false},
+	{1, "FloppY", "FLOPPY", 0, 0, false, false},
+	{1, "NET", "NET", 0, 0, false, false},
+	{1, "net", "NET", 0, 0, false, false},
+	{1, "", "", 0, 0, true, false},
+	{1, "bad", "", 0, 0, true, true},
+	{1, "IDE:0:0", "", 0, 0, true, true},
+	{1, "SCSI:0:0", "", 0, 0, true, true},
+	{2, "IDE", "", 0, 0, true, true},
+	{2, "idE", "", 0, 0, true, true},
+	{2, "CD", "CD", 0, 0, false, false},
+	{2, "cD", "CD", 0, 0, false, false},
+	{2, "DVD", "CD", 0, 0, false, false},
+	{2, "Dvd", "CD", 0, 0, false, false},
+	{2, "FLOPPY", "", 0, 0, true, true},
+	{2, "FloppY", "", 0, 0, true, true},
+	{2, "NET", "NET", 0, 0, false, false},
+	{2, "net", "NET", 0, 0, false, false},
+	{2, "", "", 0, 0, true, false},
+	{2, "bad", "", 0, 0, true, false},
+	{2, "IDE:0:0", "IDE", 0, 0, false, false},
+	{2, "SCSI:0:0", "SCSI", 0, 0, false, false},
+	{2, "Ide:0:0", "IDE", 0, 0, false, false},
+	{2, "sCsI:0:0", "SCSI", 0, 0, false, false},
+	{2, "IDEscsi:0:0", "", 0, 0, true, true},
+	{2, "SCSIide:0:0", "", 0, 0, true, true},
+	{2, "IDE:0", "", 0, 0, true, true},
+	{2, "SCSI:0", "", 0, 0, true, true},
+	{2, "IDE:0:a", "", 0, 0, true, true},
+	{2, "SCSI:0:a", "", 0, 0, true, true},
+	{2, "IDE:0:653", "", 0, 0, true, true},
+	{2, "SCSI:-10:0", "", 0, 0, true, true},
 }
 
 func TestStepSetFirstBootDevice_impl(t *testing.T) {
@@ -69,10 +70,10 @@ func TestStepSetFirstBootDevice_ParseIdentifier(t *testing.T) {
 			identifierTest.deviceIdentifier,
 			identifierTest.generation)
 
-		if (err != nil) != identifierTest.shouldError {
+		if (err != nil) != identifierTest.failInParse {
 
-			t.Fatalf("Test %q (gen %v): shouldError: %v but err: %v", identifierTest.deviceIdentifier,
-				identifierTest.generation, identifierTest.shouldError, err)
+			t.Fatalf("Test %q (gen %v): failInParse: %v but err: %v", identifierTest.deviceIdentifier,
+				identifierTest.generation, identifierTest.failInParse, err)
 
 		}
 
@@ -107,7 +108,7 @@ func TestStepSetFirstBootDevice(t *testing.T) {
 		vmName := "foo"
 		state.Put("vmName", vmName)
 
-		// pretend that we mounted a DVD somewhere (0:0)
+		// pretend that we mounted a DVD somewhere (CD:0:0)
 		var dvdControllerProperties DvdControllerProperties
 		dvdControllerProperties.ControllerNumber = 0
 		dvdControllerProperties.ControllerLocation = 0
@@ -118,13 +119,13 @@ func TestStepSetFirstBootDevice(t *testing.T) {
 		step.FirstBootDevice = identifierTest.deviceIdentifier
 
 		action := step.Run(context.Background(), state)
-		if (action != multistep.ActionContinue) != identifierTest.shouldError {
+		if (action != multistep.ActionContinue) != identifierTest.failInParse {
 
 			t.Fatalf("Test %q (gen %v): Bad action: %v", identifierTest.deviceIdentifier, identifierTest.generation, action)
 
 		}
 
-		if (identifierTest.shouldError) {
+		if (identifierTest.failInParse) {
 
 			if _, ok := state.GetOk("error"); !ok {
 				t.Fatalf("Test %q (gen %v): Should have error", identifierTest.deviceIdentifier, identifierTest.generation)
