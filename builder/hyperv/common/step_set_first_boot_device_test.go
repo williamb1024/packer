@@ -119,13 +119,13 @@ func TestStepSetFirstBootDevice(t *testing.T) {
 		step.FirstBootDevice = identifierTest.deviceIdentifier
 
 		action := step.Run(context.Background(), state)
-		if (action != multistep.ActionContinue) != identifierTest.failInParse {
+		if (action != multistep.ActionContinue) != identifierTest.haltStep {
 
 			t.Fatalf("Test %q (gen %v): Bad action: %v", identifierTest.deviceIdentifier, identifierTest.generation, action)
 
 		}
 
-		if (identifierTest.failInParse) {
+		if (identifierTest.haltStep) {
 
 			if _, ok := state.GetOk("error"); !ok {
 				t.Fatalf("Test %q (gen %v): Should have error", identifierTest.deviceIdentifier, identifierTest.generation)
