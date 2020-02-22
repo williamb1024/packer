@@ -36,6 +36,8 @@ func TestStepSetFirstBootDevice_ParseIdentifier(t *testing.T) {
 		{1, "FloppY", "FLOPPY", 0, 0, false},
 		{1, "NET", "NET", 0, 0, false},
 		{1, "net", "NET", 0, 0, false},
+		{1, "", "", 0, 0, true},
+		{1, "bad", "", 0, 0, true},
 	}
 
 	for _, identifierTest := range identifierTests {
