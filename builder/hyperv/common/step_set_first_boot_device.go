@@ -43,6 +43,8 @@ func ParseBootDeviceIdentifier(deviceIdentifier string, generation uint) (string
 
 		}
 
+		// success
+		return controllerType, 0, 0, nil
 	}
 
 	// everything else is treated as generation 2... the first set of lookups covers
