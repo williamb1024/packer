@@ -96,29 +96,35 @@ func TestStepSetFirstBootDevice_ParseIdentifier(t *testing.T) {
 
 func TestStepSetFirstBootDevice(t *testing.T) {
 
-	state := testState(t)
 	step := new(StepSetFirstBootDevice)
-	driver := state.Get("driver").(*DriverMock)
 
 	for _, identifierTest := range parseIdentifierTests {
 
-		driver.SetFirstBootDevice_Called = false
-		driver.SetFirstBootDevice_VmName = ""
-		driver.SetFirstBootDevice_ControllerType = ""
-		driver.SetFirstBootDevice_ControllerNumber = 0
-		driver.SetFirstBootDevice_ControllerLocation = 0
-		driver.SetFirstBootDevice_Generation = 0
-
+		state := testState(t)
+		driver := state.Get("driver").(*DriverMock)
+	
+		// requires the vmName state value
+		vmName := "foo"
+		state.Put("vmName", vmName)
+	
 		step.Generation = identifierTest.generation
 		step.FirstBootDevice = identifierTest.deviceIdentifier
 
 		action := step.Run(context.Background(), state)
 		if (action != multistep.ActionContinue) != identifierTest.shouldError {
 
-			t.Fatalf("Test %q (gen %v): shouldError: %v but action: %v", identifierTest.deviceIdentifier,
-				identifierTest.generation, identifierTest.shouldError, action)
+			t.Fatalf("Test %q (gen %v): Bad action: %v", identifierTest.deviceIdentifier, identifierTest.generation, action)
 
 		}
+
+		if (identifierTest.shouldError) {
+
+			if _, ok := state.GetOk("error"); !ok {
+				t.Fatalf("Test %q (gen %v): Should have error", identifierTest.deviceIdentifier, identifierTest.generation)
+			}
+	
+		}
+	
 
 	}
 
