@@ -37,21 +37,25 @@ func TestStepSetFirstBootDevice_ParseIdentifier(t *testing.T) {
 
 		if (err != nil) != identifierTest.shouldError {
 
-			t.Fatalf("Test %q (gen %v) has shouldError: %v but err: %v", identifierTest.deviceIdentifier, 
+			t.Fatalf("Test %q (gen %v): shouldError: %v but err: %v", identifierTest.deviceIdentifier, 
 				identifierTest.generation, identifierTest.shouldError, err)
 			
 		}
 
-		if controllerType == "" || controllerNumber == 0 || controllerLocation == 0 {
-			t.Fatal("Bah")
+		switch {
+
+		case controllerType != identifierTest.controllerType:
+			t.Fatalf("Test %q (gen %v): controllerType: %q != %q", identifierTest.deviceIdentifier, identifierTest.generation,
+				identifierTest.controllerType, controllerType)
+
+		case controllerNumber != identifierTest.controllerNumber:
+			t.Fatalf("Test %q (gen %v): controllerNumber: %v != %v", identifierTest.deviceIdentifier, identifierTest.generation,
+				identifierTest.controllerNumber, controllerNumber)
+
+		case controllerLocation != identifierTest.controllerLocation:
+			t.Fatalf("Test %q (gen %v): controllerLocation: %v != %v", identifierTest.deviceIdentifier, identifierTest.generation,
+				identifierTest.controllerLocation, controllerLocation)
+
 		}
-
-		t.Fatal(identifierTest.deviceIdentifier)
-		
 	}
-
-//	func ParseBootDeviceIdentifier(deviceIdentifier string, generation uint) (string, uint, uint, error) {
-
-	t.Fatal("Fail Parsing!")
-
 }
