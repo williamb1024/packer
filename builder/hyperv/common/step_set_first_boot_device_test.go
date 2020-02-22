@@ -26,7 +26,16 @@ type parseBootDeviceIdentifierTest struct {
 func TestStepSetFirstBootDevice_ParseIdentifier(t *testing.T) {
 
 	identifierTests := [...]parseBootDeviceIdentifierTest{
-		{1, "IDE", "IDE", 0, 0, true},
+		{1, "IDE", "IDE", 0, 0, false},
+		{1, "idE", "IDE", 0, 0, false},
+		{1, "CD", "DVD", 0, 0, false},
+		{1, "cD", "DVD", 0, 0, false},
+		{1, "DVD", "DVD", 0, 0, false},
+		{1, "Dvd", "DVD", 0, 0, false},
+		{1, "FLOPPY", "FLOPPY", 0, 0, false},
+		{1, "FloppY", "FLOPPY", 0, 0, false},
+		{1, "NET", "NET", 0, 0, false},
+		{1, "net", "NET", 0, 0, false},
 	}
 
 	for _, identifierTest := range identifierTests {
