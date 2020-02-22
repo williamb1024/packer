@@ -26,7 +26,7 @@ var parseIdentifierTests = [...]parseBootDeviceIdentifierTest{
 	{1, "CD", "CD", 0, 0, false, false, true, true},
 	{1, "cD", "CD", 0, 0, false, false, false, false},
 	{1, "DVD", "CD", 0, 0, false, false, false, false},
-	{1, "DVD", "CD", 0, 0, false, false, false, true},
+	{1, "DVD", "CD", 0, 0, false, false, true, true},
 	{1, "Dvd", "CD", 0, 0, false, false, false, false},
 	{1, "FLOPPY", "FLOPPY", 0, 0, false, false, true, false},
 	{1, "FloppY", "FLOPPY", 0, 0, false, false, true, false},
