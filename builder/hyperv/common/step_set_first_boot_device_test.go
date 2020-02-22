@@ -92,3 +92,18 @@ func TestStepSetFirstBootDevice_ParseIdentifier(t *testing.T) {
 		}
 	}
 }
+
+func TestStepSetFirstBootDevice(t *testing.T) {
+
+	state := testState(t)
+	step := new(StepSetFirstBootDevice)
+	driver := state.Get("driver").(*DriverMock)
+
+	for _, _ := range parseIdentifierTests {
+
+		driver.StepSetFirstBootDevice_Called = false
+
+
+	}
+
+}
