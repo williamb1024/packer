@@ -123,6 +123,7 @@ func TestStepSetFirstBootDevice(t *testing.T) {
 				t.Fatalf("Test %q (gen %v): Should have error", identifierTest.deviceIdentifier, identifierTest.generation)
 			}
 
+			// don't perform the remaining checks..
 			continue
 	
 		} else {
@@ -133,10 +134,18 @@ func TestStepSetFirstBootDevice(t *testing.T) {
 
 		}
 
-		if driver.SetFirstBootDevice_Called {
-			t.Fatal("Called")
+		if !driver.SetFirstBootDevice_Called {
+			t.Fatalf("Test %q (gen %v): Should have called SetFirstBootDevice", identifierTest.deviceIdentifier, identifierTest.generation)
 		}
 
-	}
+		if (driver.SetFirstBootDevice_VmName != vmName) ||
+		   (driver.SetFirstBootDevice_ControllerType != identifierTest.ControllerType) ||
+		   (driver.SetFirstBootDevice_ControllerNumber != identifierTest.ControllerNumber) ||
+		   (driver.SetFirstBootDevice_ControllerLocation != identifierTest.ControllerLocation) ||
+		   (driver.setFirstBootDevice_Generation != identifierTest.Generation)) {
 
+			t.Fatalf("Test %q (gen %v): Called SetFirstBootDevice with unexpected arguments.", identifierTest.deviceIdentifier, identifierTest.generation)
+
+		}
+	}
 }
