@@ -14,7 +14,7 @@ func TestStepSetFirstBootDevice(t *testing.T) {
 //	t.Fatal("Fail IT!")
 }
 
-function TestStepSetFirstBootDevice_ParseIdentifier(t *testing.T) {
+func TestStepSetFirstBootDevice_ParseIdentifier(t *testing.T) {
 	t.Fatal("Fail Parsing!")
 
 }
