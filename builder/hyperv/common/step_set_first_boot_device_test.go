@@ -99,9 +99,17 @@ func TestStepSetFirstBootDevice(t *testing.T) {
 	step := new(StepSetFirstBootDevice)
 	driver := state.Get("driver").(*DriverMock)
 
-	for _, _ := range parseIdentifierTests {
+	for _, identifierTest := range parseIdentifierTests {
 
 		driver.SetFirstBootDevice_Called = false
+		driver.SetFirstBootDevice_VmName = ""
+		driver.SetFirstBootDevice_ControllerType = ""
+		driver.SetFirstBootDevice_ControllerNumber = 0
+		driver.SetFirstBootDevice_ControllerLocation = 0
+		driver.SetFirstBootDevice_Generation = 0
+
+		step.Generation = identifierTest.generation
+		step.FirstBootDevice = identifierTest.deviceIdentifier
 
 
 	}
