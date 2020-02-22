@@ -29,6 +29,12 @@ func TestStepSetFirstBootDevice_ParseIdentifier(t *testing.T) {
 		{1, "IDE", "IDE", 0, 0, false},
 	}
 
+	for identifierTest := range identifierTests {
+
+		t.Fatal(identifierTest.deviceIdentifier)
+		
+	}
+
 //	func ParseBootDeviceIdentifier(deviceIdentifier string, generation uint) (string, uint, uint, error) {
 
 	t.Fatal("Fail Parsing!")
