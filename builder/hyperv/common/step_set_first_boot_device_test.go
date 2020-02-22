@@ -139,10 +139,10 @@ func TestStepSetFirstBootDevice(t *testing.T) {
 		}
 
 		if (driver.SetFirstBootDevice_VmName != vmName) ||
-		   (driver.SetFirstBootDevice_ControllerType != identifierTest.ControllerType) ||
-		   (driver.SetFirstBootDevice_ControllerNumber != identifierTest.ControllerNumber) ||
-		   (driver.SetFirstBootDevice_ControllerLocation != identifierTest.ControllerLocation) ||
-		   (driver.setFirstBootDevice_Generation != identifierTest.Generation) {
+		   (driver.SetFirstBootDevice_ControllerType != identifierTest.controllerType) ||
+		   (driver.SetFirstBootDevice_ControllerNumber != identifierTest.controllerNumber) ||
+		   (driver.SetFirstBootDevice_ControllerLocation != identifierTest.controllerLocation) ||
+		   (driver.setFirstBootDevice_Generation != identifierTest.generation) {
 
 			t.Fatalf("Test %q (gen %v): Called SetFirstBootDevice with unexpected arguments.", identifierTest.deviceIdentifier, identifierTest.generation)
 
