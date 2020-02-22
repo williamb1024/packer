@@ -122,8 +122,18 @@ func TestStepSetFirstBootDevice(t *testing.T) {
 			if _, ok := state.GetOk("error"); !ok {
 				t.Fatalf("Test %q (gen %v): Should have error", identifierTest.deviceIdentifier, identifierTest.generation)
 			}
+
+			continue
 	
+		} else {
+
+			if _, ok := state.GetOk("error"); ok {
+				t.Fatalf("Test %q (gen %v): Should NOT have error", identifierTest.deviceIdentifier, identifierTest.generation)
+			}
+
 		}
+
+		
 	
 
 	}
