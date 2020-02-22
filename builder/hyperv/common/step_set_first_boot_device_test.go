@@ -6,14 +6,6 @@ import (
 	"github.com/hashicorp/packer/helper/multistep"
 )
 
-func TestStepSetFirstBootDevice_impl(t *testing.T) {
-	var _ multistep.Step = new(StepSetFirstBootDevice)
-}
-
-func TestStepSetFirstBootDevice(t *testing.T) {
-	//	t.Fatal("Fail IT!")
-}
-
 type parseBootDeviceIdentifierTest struct {
 	generation         uint
 	deviceIdentifier   string
@@ -23,49 +15,52 @@ type parseBootDeviceIdentifierTest struct {
 	shouldError        bool
 }
 
+var parseIdentifierTests = [...]parseBootDeviceIdentifierTest{
+	{1, "IDE", "IDE", 0, 0, false},
+	{1, "idE", "IDE", 0, 0, false},
+	{1, "CD", "CD", 0, 0, false},
+	{1, "cD", "CD", 0, 0, false},
+	{1, "DVD", "CD", 0, 0, false},
+	{1, "Dvd", "CD", 0, 0, false},
+	{1, "FLOPPY", "FLOPPY", 0, 0, false},
+	{1, "FloppY", "FLOPPY", 0, 0, false},
+	{1, "NET", "NET", 0, 0, false},
+	{1, "net", "NET", 0, 0, false},
+	{1, "", "", 0, 0, true},
+	{1, "bad", "", 0, 0, true},
+	{1, "IDE:0:0", "", 0, 0, true},
+	{1, "SCSI:0:0", "", 0, 0, true},
+	{2, "IDE", "", 0, 0, true},
+	{2, "idE", "", 0, 0, true},
+	{2, "CD", "CD", 0, 0, false},
+	{2, "cD", "CD", 0, 0, false},
+	{2, "DVD", "CD", 0, 0, false},
+	{2, "Dvd", "CD", 0, 0, false},
+	{2, "FLOPPY", "", 0, 0, true},
+	{2, "FloppY", "", 0, 0, true},
+	{2, "NET", "NET", 0, 0, false},
+	{2, "net", "NET", 0, 0, false},
+	{2, "", "", 0, 0, true},
+	{2, "bad", "", 0, 0, true},
+	{2, "IDE:0:0", "IDE", 0, 0, false},
+	{2, "SCSI:0:0", "SCSI", 0, 0, false},
+	{2, "Ide:0:0", "IDE", 0, 0, false},
+	{2, "sCsI:0:0", "SCSI", 0, 0, false},
+	{2, "IDEscsi:0:0", "", 0, 0, true},
+	{2, "SCSIide:0:0", "", 0, 0, true},
+	{2, "IDE:0", "", 0, 0, true},
+	{2, "SCSI:0", "", 0, 0, true},
+	{2, "IDE:0:a", "", 0, 0, true},
+	{2, "SCSI:0:a", "", 0, 0, true},
+	{2, "IDE:0:653", "", 0, 0, true},
+	{2, "SCSI:-10:0", "", 0, 0, true},
+}
+
+func TestStepSetFirstBootDevice_impl(t *testing.T) {
+	var _ multistep.Step = new(StepSetFirstBootDevice)
+}
+
 func TestStepSetFirstBootDevice_ParseIdentifier(t *testing.T) {
-
-	identifierTests := [...]parseBootDeviceIdentifierTest{
-		{1, "IDE", "IDE", 0, 0, false},
-		{1, "idE", "IDE", 0, 0, false},
-		{1, "CD", "CD", 0, 0, false},
-		{1, "cD", "CD", 0, 0, false},
-		{1, "DVD", "CD", 0, 0, false},
-		{1, "Dvd", "CD", 0, 0, false},
-		{1, "FLOPPY", "FLOPPY", 0, 0, false},
-		{1, "FloppY", "FLOPPY", 0, 0, false},
-		{1, "NET", "NET", 0, 0, false},
-		{1, "net", "NET", 0, 0, false},
-		{1, "", "", 0, 0, true},
-		{1, "bad", "", 0, 0, true},
-		{1, "IDE:0:0", "", 0, 0, true},
-		{1, "SCSI:0:0", "", 0, 0, true},
-
-		{2, "IDE", "", 0, 0, true},
-		{2, "idE", "", 0, 0, true},
-		{2, "CD", "CD", 0, 0, false},
-		{2, "cD", "CD", 0, 0, false},
-		{2, "DVD", "CD", 0, 0, false},
-		{2, "Dvd", "CD", 0, 0, false},
-		{2, "FLOPPY", "", 0, 0, true},
-		{2, "FloppY", "", 0, 0, true},
-		{2, "NET", "NET", 0, 0, false},
-		{2, "net", "NET", 0, 0, false},
-		{2, "", "", 0, 0, true},
-		{2, "bad", "", 0, 0, true},
-		{2, "IDE:0:0", "IDE", 0, 0, false},
-		{2, "SCSI:0:0", "SCSI", 0, 0, false},
-		{2, "Ide:0:0", "IDE", 0, 0, false},
-		{2, "sCsI:0:0", "SCSI", 0, 0, false},
-		{2, "IDEscsi:0:0", "", 0, 0, true},
-		{2, "SCSIide:0:0", "", 0, 0, true},
-		{2, "IDE:0", "", 0, 0, true},
-		{2, "SCSI:0", "", 0, 0, true},
-		{2, "IDE:0:a", "", 0, 0, true},
-		{2, "SCSI:0:a", "", 0, 0, true},
-		{2, "IDE:0:653", "", 0, 0, true},
-		{2, "SCSI:-10:0", "", 0, 0, true},
-	}
 
 	for _, identifierTest := range identifierTests {
 
