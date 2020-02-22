@@ -101,7 +101,7 @@ func TestStepSetFirstBootDevice(t *testing.T) {
 
 	for _, _ := range parseIdentifierTests {
 
-		driver.StepSetFirstBootDevice_Called = false
+		driver.SetFirstBootDevice_Called = false
 
 
 	}
