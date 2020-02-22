@@ -133,8 +133,9 @@ func TestStepSetFirstBootDevice(t *testing.T) {
 
 		}
 
-		
-	
+		if driver.SetFirstBootDevice_Called {
+			t.Fatal("Called")
+		}
 
 	}
 
