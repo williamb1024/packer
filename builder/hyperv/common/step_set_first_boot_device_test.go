@@ -37,7 +37,7 @@ func TestStepSetFirstBootDevice_ParseIdentifier(t *testing.T) {
 
 		if (err == nil) != identifierTest.shouldError {
 
-			t.Fatalf("Test %q (gen %q) has shouldError: %q but err: %q", identifierTest.deviceIdentifier, 
+			t.Fatalf("Test %q (gen %v) has shouldError: %v but err: %v", identifierTest.deviceIdentifier, 
 				identifierTest.generation, identifierTest.shouldError, err)
 			
 		}
