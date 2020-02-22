@@ -42,6 +42,10 @@ func TestStepSetFirstBootDevice_ParseIdentifier(t *testing.T) {
 			
 		}
 
+		if controllerType == "" || controllerNumber == 0 || controllerLocation == 0 {
+			t.Fatal("Bah")
+		}
+
 		t.Fatal(identifierTest.deviceIdentifier)
 		
 	}
