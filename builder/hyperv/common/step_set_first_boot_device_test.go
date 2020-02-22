@@ -26,10 +26,21 @@ type parseBootDeviceIdentifierTest struct {
 func TestStepSetFirstBootDevice_ParseIdentifier(t *testing.T) {
 
 	identifierTests := [...]parseBootDeviceIdentifierTest{
-		{1, "IDE", "IDE", 0, 0, false},
+		{1, "IDE", "IDE", 0, 0, true},
 	}
 
-	for i, identifierTest := range identifierTests {
+	for _, identifierTest := range identifierTests {
+
+		controllerType, controllerNumber, controllerLocation, err := ParseBootDeviceIdentifier(
+			identifierTest.deviceIdentifier,
+			identifierTest.generation)
+
+		if (err == nil) != identifierTest.shouldError {
+
+			t.Fatalf("Test %q (gen %q) has shouldError: %q but err: %q", identifierTest.deviceIdentifier, 
+				identifierTest.generation, identifierTest.shouldError, err)
+			
+		}
 
 		t.Fatal(identifierTest.deviceIdentifier)
 		
