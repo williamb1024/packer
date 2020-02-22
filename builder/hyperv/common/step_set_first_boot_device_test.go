@@ -107,9 +107,9 @@ func TestStepSetFirstBootDevice(t *testing.T) {
 		vmName := "foo"
 		state.Put("vmName", vmName)
 
-		// pretend that we mounted a DVD somewhere
+		// pretend that we mounted a DVD somewhere (0:0)
 		var dvdControllerProperties DvdControllerProperties
-		dvdControllerProperties.ControllerNumber = 1
+		dvdControllerProperties.ControllerNumber = 0
 		dvdControllerProperties.ControllerLocation = 0
 		dvdControllerProperties.Existing = false
 		state.Put("os.dvd.properties", dvdControllerProperties)
