@@ -98,67 +98,6 @@ func ParseBootDeviceIdentifier(deviceIdentifier string, generation uint) (string
 	}
 
 	return "", 0, 0, fmt.Errorf("The value %q is not a properly formatted device identifier.", deviceIdentifier)
-
-	// captureExpression := "^(FLOPPY|IDE|NET)|(CD|DVD)$"
-	// if generation > 1 {
-	// 	captureExpression = "^((IDE|SCSI):(\\d+):(\\d+))|(DVD|CD)|(NET)$"
-	// }
-
-	// r, err := regexp.Compile(captureExpression)
-	// if err != nil {
-	// 	return "", 0, 0, err
-	// }
-
-	// // match against the appropriate set of values.. we force to uppercase to ensure that
-	// // all devices are always in the same case
-
-	// identifierMatches := r.FindStringSubmatch(strings.ToUpper(deviceIdentifier))
-	// if identifierMatches == nil {
-	// 	return "", 0, 0, fmt.Errorf("The value %q is not a properly formatted device or device group identifier.", deviceIdentifier)
-	// }
-
-	// switch {
-
-	// // CD or DVD are always returned as "CD"
-	// case ((generation == 1) && (identifierMatches[2] != "")) || ((generation > 1) && (identifierMatches[5] != "")):
-	// 	return "CD", 0, 0, nil
-
-	// // generation 1 only has FLOPPY, IDE or NET remaining..
-	// case (generation == 1):
-	// 	return identifierMatches[0], 0, 0, nil
-
-	// // generation 2, check for IDE or SCSI and parse location and number
-	// case (identifierMatches[2] != ""):
-	// 	{
-
-	// 		var controllerLocation int64
-	// 		var controllerNumber int64
-
-	// 		// NOTE: controllerNumber and controllerLocation cannot be negative, the regex expression
-	// 		// would not have matched if either number was signed
-
-	// 		controllerNumber, err = strconv.ParseInt(identifierMatches[3], 10, 8)
-	// 		if err == nil {
-
-	// 			controllerLocation, err = strconv.ParseInt(identifierMatches[4], 10, 8)
-	// 			if err == nil {
-
-	// 				return identifierMatches[2], uint(controllerNumber), uint(controllerLocation), nil
-
-	// 			}
-
-	// 		}
-
-	// 		return "", 0, 0, err
-
-	// 	}
-
-	// // only "NET" left on generation 2
-	// default:
-	// 	return "NET", 0, 0, nil
-
-	// }
-
 }
 
 func (s *StepSetFirstBootDevice) Run(ctx context.Context, state multistep.StateBag) multistep.StepAction {
