@@ -54,14 +54,14 @@ var parseIdentifierTests = [...]parseBootDeviceIdentifierTest{
 	{2, "SCSI:0:0", "SCSI", 0, 0, false, false, true, false},
 	{2, "Ide:0:0", "IDE", 0, 0, false, false, true, false},
 	{2, "sCsI:0:0", "SCSI", 0, 0, false, false, true, false},
-	{2, "IDEscsi:0:0", "", 0, 0, true, true, true, false},
-	{2, "SCSIide:0:0", "", 0, 0, true, true, true, false},
-	{2, "IDE:0", "", 0, 0, true, true, true, false},
-	{2, "SCSI:0", "", 0, 0, true, true, true, false},
-	{2, "IDE:0:a", "", 0, 0, true, true, true, false},
-	{2, "SCSI:0:a", "", 0, 0, true, true, true, false},
-	{2, "IDE:0:653", "", 0, 0, true, true, true, false},
-	{2, "SCSI:-10:0", "", 0, 0, true, true, true, false},
+	{2, "IDEscsi:0:0", "", 0, 0, true, true, false, false},
+	{2, "SCSIide:0:0", "", 0, 0, true, true, false, false},
+	{2, "IDE:0", "", 0, 0, true, true, false, false},
+	{2, "SCSI:0", "", 0, 0, true, true, false, false},
+	{2, "IDE:0:a", "", 0, 0, true, true, false, false},
+	{2, "SCSI:0:a", "", 0, 0, true, true, false, false},
+	{2, "IDE:0:653", "", 0, 0, true, true, false, false},
+	{2, "SCSI:-10:0", "", 0, 0, true, true, false, false},
 }
 
 func TestStepSetFirstBootDevice_impl(t *testing.T) {
