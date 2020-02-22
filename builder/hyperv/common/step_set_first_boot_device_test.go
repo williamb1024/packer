@@ -111,6 +111,13 @@ func TestStepSetFirstBootDevice(t *testing.T) {
 		step.Generation = identifierTest.generation
 		step.FirstBootDevice = identifierTest.deviceIdentifier
 
+		action := step.Run(context.Background(), state)
+		if (action != multistep.ActionContinue) != identifierTest.shouldError {
+
+			t.Fatalf("Test %q (gen %v): shouldError: %v but err: %v", identifierTest.deviceIdentifier,
+				identifierTest.generation, identifierTest.shouldError, err)
+
+		}
 
 	}
 
