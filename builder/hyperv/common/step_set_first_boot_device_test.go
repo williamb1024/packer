@@ -26,7 +26,7 @@ type parseBootDeviceIdentifierTest struct {
 func TestStepSetFirstBootDevice_ParseIdentifier(t *testing.T) {
 
 	identifierTests := [...]parseBootDeviceIdentifierTest{
-		{1, "IDE", "IDE", 0, 0, 0, false}
+		{1, "IDE", "IDE", 0, 0, 0, false},
 	}
 
 //	func ParseBootDeviceIdentifier(deviceIdentifier string, generation uint) (string, uint, uint, error) {
