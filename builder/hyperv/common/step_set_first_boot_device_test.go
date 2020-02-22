@@ -14,7 +14,23 @@ func TestStepSetFirstBootDevice(t *testing.T) {
 //	t.Fatal("Fail IT!")
 }
 
+type parseBootDeviceIdentifierTest struct {
+	generation         uint
+	deviceIdentifier   string
+	controllerType     string
+	controllerNumber   uint
+	controllerLocation uint
+	shouldError        bool
+}
+
 func TestStepSetFirstBootDevice_ParseIdentifier(t *testing.T) {
+
+	identifierTests := [...]parseBootDeviceIdentifierTest{
+		{1, "IDE", "IDE", 0, 0, 0, false}
+	}
+
+//	func ParseBootDeviceIdentifier(deviceIdentifier string, generation uint) (string, uint, uint, error) {
+
 	t.Fatal("Fail Parsing!")
 
 }
