@@ -33,7 +33,7 @@ var parseIdentifierTests = [...]parseBootDeviceIdentifierTest{
 	{1, "NET", "NET", 0, 0, false, false, true, false},
 	{1, "net", "NET", 0, 0, false, false, true, false},
 	{1, "", "", 0, 0, true, false, false, false},
-	{1, "bad", "", 0, 0, true, true, true, false},
+	{1, "bad", "", 0, 0, true, true, false, false},
 	{1, "IDE:0:0", "", 0, 0, true, true, true, false},
 	{1, "SCSI:0:0", "", 0, 0, true, true, true, false},
 	{2, "IDE", "", 0, 0, true, true, true, false},
